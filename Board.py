@@ -299,7 +299,7 @@ class board:
 
             self.move_piece(the_piece_moving, move_to.x, move_to.y)
 
-            print(the_piece_moving.name, move_to.x, move_to.y)
+            #print(the_piece_moving.name, move_to.x, move_to.y)
 
             gui_board.move_a_piece(the_piece_moving, move_to.x, move_to.y , self.board_array)
         
@@ -320,7 +320,7 @@ class board:
 
             self.move_piece(the_piece_moving, move_to.x, move_to.y)
 
-            print(the_piece_moving.name, move_to.x, move_to.y)
+            #print(the_piece_moving.name, move_to.x, move_to.y)
 
             gui_board.move_a_piece(the_piece_moving, move_to.x, move_to.y , self.board_array)
 

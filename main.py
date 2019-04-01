@@ -40,6 +40,7 @@ while(move_counter < 10):
     the_board.make_random_move(move_counter, gui_board)
     root.update()
     move_counter = move_counter+1
+    the_board.print_board()
     time.sleep(2)
 
 

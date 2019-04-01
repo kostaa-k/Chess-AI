@@ -47,7 +47,7 @@ class GameBoard(tk.Frame):
         
     def movepiece(self, name, to_row, to_column):
         self.pieces[name] = (to_row, to_column)
-        print(name)
+        #print(name)
         x0 = (to_column * self.size) + int(self.size/2)
         y0 = (to_row * self.size) + int(self.size/2)
         self.canvas.coords(name, x0, y0)
