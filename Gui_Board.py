@@ -52,6 +52,21 @@ class GameBoard(tk.Frame):
         y0 = (to_row * self.size) + int(self.size/2)
         self.canvas.coords(name, x0, y0)
 
+    def move_a_piece(self, the_piece, pos_x, pos_y, brd):
+
+        if(brd[pos_x][pos_y].name != ""):
+            temp_name = brd[pos_x][pos_y].total_name
+            self.movepiece(temp_name, 0, 0)
+
+        new_x = pos_x
+        new_y = 7-pos_y
+
+        #Get gui piece name
+        the_piece_name = the_piece.total_name
+
+        #Move the piece
+        self.movepiece(the_piece_name, new_y, new_x)
+
     def refresh(self, event):
         '''Redraw the board, possibly in response to window being resized'''
         xsize = int((event.width-1) / self.columns)
@@ -77,6 +92,7 @@ class GameBoard(tk.Frame):
     def destroy_some_frame(self):
         self.some_frame.destroy()
         self.some_frame = None
+
         
         
 

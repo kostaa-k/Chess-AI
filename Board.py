@@ -8,6 +8,9 @@ import tkinter as tk
 import Gui_Board
 from Gui_Board import GameBoard
 import time
+from copy import copy, deepcopy
+import math
+import random
 
 class board:
     
@@ -17,11 +20,12 @@ class board:
     
     def __init__(self):
         
+        counter = 0
         for x in range(0, 8):
             for i in range(0,8):
-                temp = piece("", "", x, i)
+                temp = piece("", "", x, i, counter)
                 self.board_array[x][i] = temp
-                
+                counter = counter+1
                 
     
     def set_board(self):
@@ -127,7 +131,7 @@ class board:
         
         for y in range(0,8):
             for x in range(0,8):
-                temp_piece = self.board_array[x][y]
+                temp_piece = self.board_array[x][7-y]
                 
                 if (temp_piece.name != ""):
                     print(temp_piece.name[:1], " ",  end = "")
@@ -135,6 +139,9 @@ class board:
                     print("-  ", end ="")
                 
             print()
+
+        print()
+        print()
             
     
     def set_Gui_Board(self, gui_board, root):
@@ -180,6 +187,8 @@ class board:
     
     def move_piece(self, the_piece, pos_x, pos_y):
             
+        #gui_board.move_a_piece(the_piece, pos_x, pos_y)
+        
         the_total_name = the_piece.total_name
         
         temp = piece("", "", the_piece.x, the_piece.y)
@@ -187,30 +196,150 @@ class board:
         self.board_array[pos_x][pos_y] = the_piece
         
         self.board_array[the_piece.x][the_piece.y] = temp
+
+
+
+    def get_white_potentials(self):
+
+        brd_array = self.board_array
+
+        pieces_that_can_move = []
+
+        for x in range(0,8):
+            for y in range(0,8):
+                self.board_array[x][y].potentials = []
+                temp_piece = brd_array[x][y]
+                temp_piece.potentials.clear()
+                if(temp_piece.colour == "white"):
+                    potential = temp_piece.get_potential(brd_array)
+
+                    if(potential is not None):
+                        can_move = 0
+                        a_temp_array = []
+                        for p in potential:
+                            #print(temp_piece.name, p.x, p.y)
+                            is_legal = is_move_legal(brd_array, temp_piece, p.x, p.y)
+                            #print(temp_piece.name, p.x, p.y)
+                            if(is_legal == True):
+                                can_move = 1
+                                a_temp_array.append(p)
+
+                        if(can_move == 1):
+                            temp_piece.set_potential(a_temp_array)
+                            new_piece = piece(temp_piece.name, temp_piece.colour, temp_piece.x, temp_piece.y, temp_piece.id, a_temp_array)
+                            pieces_that_can_move.append(new_piece)
+
+        return pieces_that_can_move
+
+
+    def get_black_potentials(self):
+
+        brd_array = self.board_array
+
+        pieces_that_can_move = []
+
+        for x in range(0,8):
+            for y in range(0,8):
+                self.board_array[x][y].potentials = []
+                temp_piece = brd_array[x][y]
+                temp_piece.potentials.clear()
+                if(temp_piece.colour == "black"):
+                    potential = temp_piece.get_potential(brd_array)
+
+                    if(potential is not None):
+                        can_move = 0
+                        a_temp_array = []
+                        for p in potential:
+                            #print(temp_piece.name, p.x, p.y)
+                            is_legal = is_move_legal(brd_array, temp_piece, p.x, p.y)
+                            #print(temp_piece.name, p.x, p.y)
+                            if(is_legal == True):
+                                can_move = 1
+                                a_temp_array.append(p)
+
+                        if(can_move == 1):
+                            temp_piece.set_potential(a_temp_array)
+                            new_piece = piece(temp_piece.name, temp_piece.colour, temp_piece.x, temp_piece.y, temp_piece.id, a_temp_array)
+                            pieces_that_can_move.append(new_piece)
+
+        return pieces_that_can_move
+
+
+    def get_a_piece(self, piece_id):
+
+        the_brd = self.board_array
+
+        for x in range(0, 8):
+            for y in range(0, 8):
+                temp_piece = the_brd[x][y]
+                if(temp_piece.id == piece_id):
+                    return temp_piece
+
         
+        return None
 
-    def is move_legal(self, the_piece, pos_x, pos_y)
+
+    def make_random_move(self, move_counter, gui_board):
+
+        if(move_counter %2 == 0):
+            #MEANS ITS BLACK's Turn
+            movable = self.get_black_potentials()
+            random_index = random.randint(0,len(movable)-1)
             
-        colour_move = the_piece.colour
+            piece_moving = movable[random_index]
 
-        temp_array = self.board_array
+            piece_moves = piece_moving.potentials
+            random_index2 = random.randint(0,len(piece_moves)-1)
 
-        temp = piece("", "", the_piece.x, the_piece.y)
+            move_to = piece_moves[random_index2]
 
-        if (colour_move == "white"):
-            temp_array[pos_x][pos_y] = the_piece
-            temp_array[the_piece.x][the_piece.y] = temp
+            #and the move will beee:
+
+            the_piece_moving = self.get_a_piece(piece_moving.id)
+
+            self.move_piece(the_piece_moving, move_to.x, move_to.y)
+
+            print(the_piece_moving.name, move_to.x, move_to.y)
+
+            gui_board.move_a_piece(the_piece_moving, move_to.x, move_to.y , self.board_array)
+        
+        else:
+            movable = self.get_white_potentials()
+            random_index = random.randint(0,len(movable)-1)
+            
+            piece_moving = movable[random_index]
+
+            piece_moves = piece_moving.potentials
+            random_index2 = random.randint(0,len(piece_moves)-1)
+
+            move_to = piece_moves[random_index2]
+
+            #and the move will beee:
+
+            the_piece_moving = self.get_a_piece(piece_moving.id)
+
+            self.move_piece(the_piece_moving, move_to.x, move_to.y)
+
+            print(the_piece_moving.name, move_to.x, move_to.y)
+
+            gui_board.move_a_piece(the_piece_moving, move_to.x, move_to.y , self.board_array)
+
+
+
+
+
 
 
 
 def is_white_in_check(brd):
+
 
     for i in range(0, 8):
         for j in range(0, 8):
             temp_piece = brd[i][j]
             if(temp_piece.colour == "black"):
                 #print(temp_piece.colour+" - "+temp_piece.name)
-                potentials = temp_piece.get_potential(self)
+                potentials = temp_piece.get_potential(brd)
                 
                 if (potentials is not None):
                     for x in potentials:
@@ -227,7 +356,7 @@ def is_black_in_check(brd):
             temp_piece = brd[i][j]
             if(temp_piece.colour == "white"):
                 #print(temp_piece.colour+" - "+temp_piece.name)
-                potentials = temp_piece.get_potential(self)
+                potentials = temp_piece.get_potential(brd)
                 
                 if (potentials is not None):
                     for x in potentials:
@@ -251,7 +380,41 @@ def convert_spot(the_piece):
 
 
 
-    
+
+def is_move_legal(old_array, the_piece, pos_x, pos_y):
+            
+    colour_move = the_piece.colour
+
+    temp = piece("", "", the_piece.x, the_piece.y)
+
+    temp_array = old_array
+
+    old_x = the_piece.x
+    old_y = the_piece.y
+
+
+    a_temp_piece = temp_array[pos_x][pos_y]
+
+    temp_array[pos_x][pos_y] = the_piece
+    temp_array[the_piece.x][the_piece.y] = temp
+
+
+    if (colour_move == "white"):
+        is_check = is_white_in_check(temp_array)
+    else:
+        is_check = is_black_in_check(temp_array)
+
+    if(is_check == True):
+        is_legal = False
+    else:
+        is_legal = True
+
+
+    temp_array[pos_x][pos_y] = a_temp_piece
+    temp_array[old_x][old_y] = the_piece
+
+
+    return is_legal
     
     
 

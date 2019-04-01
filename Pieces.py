@@ -15,17 +15,26 @@ class piece():
     x = -1
     y = -1
     image = None
-    
+    id = -1
+
+    potentials = []
     total_name = ""
     
-    def __init__(self, piece_name, the_colour, pos_x, pos_y):
+    def __init__(self, piece_name, the_colour, pos_x, pos_y, piece_id = -1, the_potentials = []):
         self.name = piece_name
         self.colour = the_colour
         self.x = pos_x
         self.y = pos_y
         self.image = None
         self.total_name = ""
+        self.id = piece_id
         
+        self.potentials = the_potentials
+
+    def set_potential(self, po):
+        for x in po:
+            self.potentials.append(x)
+
     def get_potential(self, board):
         
         potentials = []
@@ -68,8 +77,7 @@ def rook_potential(the_piece, the_board):
     brd = the_board.board_array
     
 
-def king_potential(the_piece, the_board):
-    brd = the_board.board_array
+def king_potential(the_piece, brd):
     
     x = the_piece.x
     y = the_piece.y
@@ -97,8 +105,7 @@ def king_potential(the_piece, the_board):
                 
     
 
-def white_pawn_potential(the_piece, the_board):
-    brd = the_board.board_array
+def white_pawn_potential(the_piece, brd):
     
     x = the_piece.x
     y = the_piece.y
@@ -138,8 +145,7 @@ def white_pawn_potential(the_piece, the_board):
     return potential
 
 
-def black_pawn_potential(the_piece, the_board):
-    brd = the_board.board_array
+def black_pawn_potential(the_piece, brd):
     
     x = the_piece.x
     y = the_piece.y
@@ -179,8 +185,7 @@ def black_pawn_potential(the_piece, the_board):
     return potential
     
 
-def knight_potential(the_piece, the_board):
-    brd = the_board.board_array
+def knight_potential(the_piece, brd):
 
     change_x = [-2, -2, -1, -1, 1, 1, 2, 2]
     change_y = [-1, 1, -2, 2, -2, 2, -1, 1]
@@ -297,8 +302,7 @@ def diagonal_potential(the_piece, brd):
 
 def left_right_potential(the_piece, brd):
 
-    
-    
+
     x = the_piece.x
     y = the_piece.y
     potential = []
@@ -343,9 +347,7 @@ def left_right_potential(the_piece, brd):
     return potential
     
     
-def up_down_potential(the_piece, board):
-    
-    brd = board.board_array
+def up_down_potential(the_piece, brd):
 
     x = the_piece.x
     y = the_piece.y    
