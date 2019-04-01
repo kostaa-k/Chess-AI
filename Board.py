@@ -121,45 +121,6 @@ class board:
                     filepath_name = "Pieces/"+piece_string
                     self.board_array[x][y].image = tk.PhotoImage(file=filepath_name)
                     
-    
-    def is_white_in_check(self):
-        
-        brd = self.board_array
-        
-        
-        for i in range(0, 8):
-            for j in range(0, 8):
-                temp_piece = brd[i][j]
-                if(temp_piece.colour == "black"):
-                    #print(temp_piece.colour+" - "+temp_piece.name)
-                    potentials = temp_piece.get_potential(self)
-                    
-                    if (potentials is not None):
-                        for x in potentials:
-                            if(x.name == "king" and x.colour == "white"):
-                                return True
-        
-        return False
-    
-    
-    def is_black_in_check(self):
-        
-        brd = self.board_array
-        
-        
-        for i in range(0, 8):
-            for j in range(0, 8):
-                temp_piece = brd[i][j]
-                if(temp_piece.colour == "white"):
-                    #print(temp_piece.colour+" - "+temp_piece.name)
-                    potentials = temp_piece.get_potential(self)
-                    
-                    if (potentials is not None):
-                        for x in potentials:
-                            if(x.name == "king" and x.colour == "black"):
-                                return True
-        
-        return False
                     
         
     def print_board(self):
@@ -227,7 +188,54 @@ class board:
         
         self.board_array[the_piece.x][the_piece.y] = temp
         
+
+    def is move_legal(self, the_piece, pos_x, pos_y)
             
+        colour_move = the_piece.colour
+
+        temp_array = self.board_array
+
+        temp = piece("", "", the_piece.x, the_piece.y)
+
+        if (colour_move == "white"):
+            temp_array[pos_x][pos_y] = the_piece
+            temp_array[the_piece.x][the_piece.y] = temp
+
+
+
+def is_white_in_check(brd):
+
+    for i in range(0, 8):
+        for j in range(0, 8):
+            temp_piece = brd[i][j]
+            if(temp_piece.colour == "black"):
+                #print(temp_piece.colour+" - "+temp_piece.name)
+                potentials = temp_piece.get_potential(self)
+                
+                if (potentials is not None):
+                    for x in potentials:
+                        if(x.name == "king" and x.colour == "white"):
+                            return True
+    
+    return False
+
+
+def is_black_in_check(brd):
+    
+    for i in range(0, 8):
+        for j in range(0, 8):
+            temp_piece = brd[i][j]
+            if(temp_piece.colour == "white"):
+                #print(temp_piece.colour+" - "+temp_piece.name)
+                potentials = temp_piece.get_potential(self)
+                
+                if (potentials is not None):
+                    for x in potentials:
+                        if(x.name == "king" and x.colour == "black"):
+                            return True
+    
+    return False
+
             
 def convert_spot(the_piece):
     x = the_piece.x
