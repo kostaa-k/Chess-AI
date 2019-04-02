@@ -36,7 +36,7 @@ gui_board = the_board.set_Gui_Board(gui_board, root)
 time.sleep(1)
 
 move_counter = 1
-while(move_counter < 20):
+while(move_counter < 50):
     the_board.make_random_move(move_counter, gui_board)
     root.update()
     move_counter = move_counter+1

@@ -44,9 +44,12 @@ class piece():
         elif (self.name == "pawn" and self.colour == "black"):
             potentials = black_pawn_potential(self, board)
         elif(self.name == "rook"):
-            potentials1 = left_right_potential(self, board)
+            potentials = left_right_potential(self, board)
             potentials2 = up_down_potential(self, board)
-            potentials = potentials1.extend(potentials2)
+            
+            if(potentials2 is not None):
+                for x in potentials2:
+                    potentials.append(x)
         elif(self.name == "bishop"):
             potentials = diagonal_potential(self, board)
         elif(self.name == "queen"):

@@ -223,7 +223,7 @@ class board:
                             is_legal = is_move_legal(brd_array, temp_piece, p.x, p.y)
                             #print(temp_piece.name, p.x, p.y)
                             if(is_legal == True):
-                                if(temp_piece.name == "bishop"):
+                                #if(temp_piece.name == "bishop"):
                                     #print(temp_piece.name, temp_piece.x, temp_piece.y)
                                 can_move = 1
                                 a_temp_array.append(p)
@@ -296,7 +296,7 @@ class board:
                 for p in i.potentials:
                     total_count = total_count+1
 
-            random_index = random.randint(0,total_count-1)
+            random_index = random.randint(1,total_count)
 
             real_count = 0
             for i in movable:
@@ -326,7 +326,7 @@ class board:
                 for p in i.potentials:
                     total_count = total_count+1
 
-            random_index = random.randint(0,total_count-1)
+            random_index = random.randint(1,total_count)
 
             real_count = 0
             for i in movable:
