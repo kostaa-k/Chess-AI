@@ -33,7 +33,7 @@ the_board.set_piece_images()
 gui_board = the_board.set_Gui_Board(gui_board, root)
         
         
-time.sleep(2)
+time.sleep(1)
 
 move_counter = 1
 while(move_counter < 20):

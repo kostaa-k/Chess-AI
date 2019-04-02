@@ -220,11 +220,11 @@ class board:
                         can_move = 0
                         a_temp_array = []
                         for p in potential:
-                            if(temp_piece.name == "bishop"):
-                                print(temp_piece.name, temp_piece.x, temp_piece.y)
                             is_legal = is_move_legal(brd_array, temp_piece, p.x, p.y)
                             #print(temp_piece.name, p.x, p.y)
                             if(is_legal == True):
+                                if(temp_piece.name == "bishop"):
+                                    #print(temp_piece.name, temp_piece.x, temp_piece.y)
                                 can_move = 1
                                 a_temp_array.append(p)
 
@@ -288,14 +288,24 @@ class board:
         if(move_counter %2 == 0):
             #MEANS ITS BLACK's Turn
             movable = self.get_black_potentials()
-            random_index = random.randint(0,len(movable)-1)
+
+
+            total_count = 0
+
+            for i in movable:
+                for p in i.potentials:
+                    total_count = total_count+1
+
+            random_index = random.randint(0,total_count-1)
+
+            real_count = 0
+            for i in movable:
+                for p in i.potentials:
+                    real_count = real_count+1
+                    if(real_count == random_index):
+                        piece_moving = i
+                        move_to = p
             
-            piece_moving = movable[random_index]
-
-            piece_moves = piece_moving.potentials
-            random_index2 = random.randint(0,len(piece_moves)-1)
-
-            move_to = piece_moves[random_index2]
 
             #and the move will beee:
 
@@ -309,14 +319,22 @@ class board:
         
         else:
             movable = self.get_white_potentials()
-            random_index = random.randint(0,len(movable)-1)
             
-            piece_moving = movable[random_index]
+            total_count = 0
 
-            piece_moves = piece_moving.potentials
-            random_index2 = random.randint(0,len(piece_moves)-1)
+            for i in movable:
+                for p in i.potentials:
+                    total_count = total_count+1
 
-            move_to = piece_moves[random_index2]
+            random_index = random.randint(0,total_count-1)
+
+            real_count = 0
+            for i in movable:
+                for p in i.potentials:
+                    real_count = real_count+1
+                    if(real_count == random_index):
+                        piece_moving = i
+                        move_to = p
 
             #and the move will beee:
 

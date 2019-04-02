@@ -225,7 +225,7 @@ def diagonal_potential(the_piece, brd):
     
     
     
-    blocked = 1
+    blocked = 0
     count = 1
     while(blocked == 0 and (x+count) < 8 and (y+count) < 8):
         temp_piece = brd[x+count][y+count]
@@ -243,7 +243,7 @@ def diagonal_potential(the_piece, brd):
         count = count+1
         
         
-    blocked = 1
+    blocked = 0
     count = 1
     while(blocked == 0 and (x+count) < 8 and (y-count) >= 0):
         temp_piece = brd[x+count][y-count]
@@ -261,7 +261,7 @@ def diagonal_potential(the_piece, brd):
         count = count+1
         
         
-    blocked = 1
+    blocked = 0
     count = 1
     while(blocked == 0 and (x-count) >=0 and (y+count) < 8):
         temp_piece = brd[x-count][y+count]
@@ -279,10 +279,10 @@ def diagonal_potential(the_piece, brd):
         count = count+1
         
         
-    blocked = 1
+    blocked = 0
     count = 1
     while(blocked == 0 and (x-count) >= 0 and (y-count) >= 0):
-        temp_piece = brd[x+count][y]
+        temp_piece = brd[x-count][y]
         if (temp_piece.name == ""):
             potential.append(temp_piece)
         else:
@@ -354,7 +354,7 @@ def up_down_potential(the_piece, brd):
 
     potential = []
     
-    blocked = 1
+    blocked = 0
     count = 1
     while(blocked == 0 and (y+count) < 8):
         temp_piece = brd[x][y+count]
