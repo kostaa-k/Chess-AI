@@ -194,10 +194,16 @@ class board:
 
         the_piece.x = pos_x
         the_piece.y = pos_y
+        the_piece.has_moved = the_piece.has_moved+1
         self.board_array[pos_x][pos_y] = the_piece
-        
-        
 
+
+    def white_castling(self, the_piece):
+        #LEFT OFF HERE
+
+        #King Side:
+
+        print()
 
 
     def get_white_potentials(self):
@@ -217,6 +223,10 @@ class board:
                     potential = temp_piece.get_potential(brd_array)
 
                     if(potential is not None):
+
+                        if(temp_piece.name == "king" and temp_piece.moves = 0):
+                            castling = self.white_castling(temp_piece)
+
                         can_move = 0
                         a_temp_array = []
                         for p in potential:

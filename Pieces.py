@@ -16,6 +16,7 @@ class piece():
     y = -1
     image = None
     id = -1
+    moves = 0
 
     potentials = []
     total_name = ""
@@ -28,6 +29,7 @@ class piece():
         self.image = None
         self.total_name = ""
         self.id = piece_id
+        self.moves = 0
         
         self.potentials = the_potentials
 
@@ -285,7 +287,7 @@ def diagonal_potential(the_piece, brd):
     blocked = 0
     count = 1
     while(blocked == 0 and (x-count) >= 0 and (y-count) >= 0):
-        temp_piece = brd[x-count][y]
+        temp_piece = brd[x-count][y-count]
         if (temp_piece.name == ""):
             potential.append(temp_piece)
         else:
@@ -304,8 +306,6 @@ def diagonal_potential(the_piece, brd):
 
 
 def left_right_potential(the_piece, brd):
-
-
     x = the_piece.x
     y = the_piece.y
     potential = []

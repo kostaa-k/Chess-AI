@@ -44,7 +44,5 @@ while(move_counter < 50):
     time.sleep(1)
 
 
-
-
 root.mainloop()
     
