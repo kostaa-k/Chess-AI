@@ -189,13 +189,14 @@ class board:
             
         #gui_board.move_a_piece(the_piece, pos_x, pos_y)
         
-        the_total_name = the_piece.total_name
-        
         temp = piece("", "", the_piece.x, the_piece.y)
-        
+        self.board_array[the_piece.x][the_piece.y] = temp
+
+        the_piece.x = pos_x
+        the_piece.y = pos_y
         self.board_array[pos_x][pos_y] = the_piece
         
-        self.board_array[the_piece.x][the_piece.y] = temp
+        
 
 
 
@@ -211,13 +212,16 @@ class board:
                 temp_piece = brd_array[x][y]
                 temp_piece.potentials.clear()
                 if(temp_piece.colour == "white"):
+
+                    #print(temp_piece.name, temp_piece.x, temp_piece.y)
                     potential = temp_piece.get_potential(brd_array)
 
                     if(potential is not None):
                         can_move = 0
                         a_temp_array = []
                         for p in potential:
-                            #print(temp_piece.name, p.x, p.y)
+                            if(temp_piece.name == "bishop"):
+                                print(temp_piece.name, temp_piece.x, temp_piece.y)
                             is_legal = is_move_legal(brd_array, temp_piece, p.x, p.y)
                             #print(temp_piece.name, p.x, p.y)
                             if(is_legal == True):

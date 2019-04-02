@@ -22,7 +22,7 @@ the_board.set_board()
 the_board.print_board()
 
 
-time.sleep(5)
+time.sleep(2)
 #SET UP GUI BOARD
 root = tk.Tk()
 gui_board = GameBoard(root)
@@ -33,15 +33,15 @@ the_board.set_piece_images()
 gui_board = the_board.set_Gui_Board(gui_board, root)
         
         
-time.sleep(3)
+time.sleep(2)
 
 move_counter = 1
-while(move_counter < 10):
+while(move_counter < 20):
     the_board.make_random_move(move_counter, gui_board)
     root.update()
     move_counter = move_counter+1
     the_board.print_board()
-    time.sleep(2)
+    time.sleep(1)
 
 
 

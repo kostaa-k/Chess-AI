@@ -235,10 +235,10 @@ def diagonal_potential(the_piece, brd):
             if (temp_piece.colour != the_piece.colour):
                 potential.append(temp_piece)
                 blocked = 1
-                break;
+                break
             else:
                 blocked = 1
-                break;
+                break
                 
         count = count+1
         
@@ -253,10 +253,10 @@ def diagonal_potential(the_piece, brd):
             if (temp_piece.colour != the_piece.colour):
                 potential.append(temp_piece)
                 blocked = 1
-                break;
+                break
             else:
                 blocked = 1
-                break;
+                break
                 
         count = count+1
         
@@ -271,10 +271,10 @@ def diagonal_potential(the_piece, brd):
             if (temp_piece.colour != the_piece.colour):
                 potential.append(temp_piece)
                 blocked = 1
-                break;
+                break
             else:
                 blocked = 1
-                break;
+                break
                 
         count = count+1
         
@@ -289,10 +289,10 @@ def diagonal_potential(the_piece, brd):
             if (temp_piece.colour != the_piece.colour):
                 potential.append(temp_piece)
                 blocked = 1
-                break;
+                break
             else:
                 blocked = 1
-                break;
+                break
                 
         count = count+1
 
@@ -319,10 +319,10 @@ def left_right_potential(the_piece, brd):
             if (temp_piece.colour != the_piece.colour):
                 potential.append(temp_piece)
                 blocked = 1
-                break;
+                break
             else:
                 blocked = 1
-                break;
+                break
                 
         count = count+1
         
@@ -337,10 +337,10 @@ def left_right_potential(the_piece, brd):
             if (temp_piece.colour != the_piece.colour):
                 potential.append(temp_piece)
                 blocked = 1
-                break;
+                break
             else:
                 blocked = 1
-                break;
+                break
                 
         count = count+1
         
@@ -364,10 +364,10 @@ def up_down_potential(the_piece, brd):
             if (temp_piece.colour != the_piece.colour):
                 potential.append(temp_piece)
                 blocked = 1
-                break;
+                break
             else:
                 blocked = 1
-                break;
+                break
                 
         count = count+1
                 
@@ -383,7 +383,7 @@ def up_down_potential(the_piece, brd):
                 blocked = 1
             else:
                 blocked = 1
-                break;
+                break
             
         count = count+1
     
