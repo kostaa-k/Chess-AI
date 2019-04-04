@@ -185,17 +185,68 @@ class board:
         return self.board_array
     
     
-    def move_piece(self, the_piece, pos_x, pos_y):
-            
-        #gui_board.move_a_piece(the_piece, pos_x, pos_y)
+    def move_piece(self, the_piece, pos_x, pos_y, gui_board):
         
-        temp = piece("", "", the_piece.x, the_piece.y)
-        self.board_array[the_piece.x][the_piece.y] = temp
+        gui_board.move_a_piece(the_piece, pos_x, pos_y , self.board_array)
 
+        brd = self.board_array
+        #gui_board.move_a_piece(the_piece, pos_x, pos_y)
+        temp = piece("", "", the_piece.x, the_piece.y)
+
+        self.board_array[the_piece.x][the_piece.y] = temp
+        
         the_piece.x = pos_x
         the_piece.y = pos_y
+
+        #White Castle Queen Side
+        if(the_piece == "king" and the_piece.moves == 0 and pos_x == 2 and pos_y == 0):
+            rook1 = brd[0][0]
+            gui_board.move_a_piece(rook1, 3, 0, self.board_array)
+            temp2 = piece("", "", 0, 0)
+            rook1.moves = rook1.moves+1
+            rook1.x = 3
+            rook1.y = 0
+            self.board_array[3][0] = rook1
+            self.board_array[0][0] = temp2
+
+        #White castle king side
+        elif(the_piece == "king" and the_piece.moves == 0 and pos_x == 6 and pos_y == 0):
+            temp2 = piece("", "", 0, 0)
+            rook1 = brd[7][0]
+            gui_board.move_a_piece(rook1, 5, 0, self.board_array)
+            rook1.moves = rook1.moves+1
+            rook1.x = 5
+            rook1.y = 0
+            self.board_array[5][0] = rook1
+            self.board_array[7][0] = temp2
+
+        #Black castle queen side
+        elif(the_piece == "king" and the_piece.moves == 0 and pos_x == 2 and pos_y == 7):
+            temp2 = piece("", "", 0, 0)
+            rook1 = brd[0][7]
+            gui_board.move_a_piece(rook1, 3, 7, self.board_array)
+            rook1.moves = rook1.moves+1
+            rook1.x = 3
+            rook1.y = 7
+            self.board_array[3][7] = rook1
+            self.board_array[0][7] = temp2
+
+        #Black castle king side
+        elif(the_piece == "king" and the_piece.moves == 0 and pos_x == 6 and pos_y == 7):
+            temp2 = piece("", "", 0, 0)
+            rook1 = brd[7][7]
+            gui_board.move_a_piece(rook1, 5, 7, self.board_array)
+            rook1.moves = rook1.moves+1
+            rook1.x = 5
+            rook1.y = 7
+            self.board_array[5][7] = rook1
+            self.board_array[7][7] = temp2
+
+
         the_piece.moves = the_piece.moves+1
         self.board_array[pos_x][pos_y] = the_piece
+
+        #gui_board.move_a_piece(the_piece, pos_x, pos_y , self.board_array)
 
 
     def white_castling(self):
@@ -217,25 +268,27 @@ class board:
 
                 #Check rook1 is in right place and hasn't moved - Queen side
                 rook1 = brd[0][0]
-                if(rook1 == "rook" and rook1.moves == 0):
+                if(rook1.name == "rook" and rook1.moves == 0):
                     if(brd[1][0].name == "" and brd[2][0].name == "" and brd[3][0].name == ""):
-                        black_potentials = get_black_potentials(self)
+                        queenside = 1
+                        black_potentials = self.total_black_potentials()
                         for x in black_potentials:
                             for i in x.potentials:
                                 if(i.y == 0):
                                     if(i.x >= 0 or i.x <= 4):
-                                        queenside = 1
+                                        queenside = 0
                 
                 #Check rook 2 is in the right place and hasn't moved - King side
                 rook2 = brd[7][0]
-                if(rook2 == "rook" and rook1.moves == 0):
+                if(rook2.name == "rook" and rook1.moves == 0):
                     if(brd[6][0].name == "" and brd[5][0].name == ""):
-                        black_potentials = get_black_potentials(self)
+                        kingside = 1
+                        black_potentials = self.total_black_potentials()
                         for x in black_potentials:
                             for i in x.potentials:
                                 if(i.y == 0):
                                     if(i.x >= 4 or i.x <= 7):
-                                        kingside = 1
+                                        kingside = 0
 
         
         return kingside, queenside
@@ -261,25 +314,27 @@ class board:
 
                 #Check rook1 is in right place and hasn't moved - Queen side
                 rook1 = brd[0][7]
-                if(rook1 == "rook" and rook1.moves == 0):
+                if(rook1.name == "rook" and rook1.moves == 0):
                     if(brd[1][7].name == "" and brd[2][7].name == "" and brd[3][7].name == ""):
-                        white_potentials = get_white_potentials(self)
+                        queenside = 1
+                        white_potentials = self.total_white_potentials()
                         for x in white_potentials:
                             for i in x.potentials:
                                 if(i.y == 7):
                                     if(i.x >= 0 or i.x <= 4):
-                                        queenside = 1
+                                        queenside = 0
                 
                 #Check rook 2 is in the right place and hasn't moved - King side
                 rook2 = brd[7][7]
-                if(rook2 == "rook" and rook1.moves == 0):
+                if(rook2.name == "rook" and rook1.moves == 0):
                     if(brd[6][7].name == "" and brd[5][7].name == ""):
-                        white_potentials = get_white_potentials(self)
+                        kingside = 1
+                        white_potentials = self.total_white_potentials()
                         for x in white_potentials:
                             for i in x.potentials:
                                 if(i.y == 7):
                                     if(i.x >= 4 or i.x <= 7):
-                                        kingside = 1
+                                        kingside = 0
         
         return kingside, queenside
         
@@ -302,9 +357,6 @@ class board:
 
                     if(potential is not None):
 
-                        if(temp_piece.name == "king" and temp_piece.moves == 0):
-                            castling = self.white_castling()
-
                         can_move = 0
                         a_temp_array = []
                         for p in potential:
@@ -320,6 +372,20 @@ class board:
                             temp_piece.set_potential(a_temp_array)
                             new_piece = piece(temp_piece.name, temp_piece.colour, temp_piece.x, temp_piece.y, temp_piece.id, a_temp_array)
                             pieces_that_can_move.append(new_piece)
+
+
+        king_side, queen_side = self.white_castling()
+
+        if(king_side == 1):
+            print("KING SIDE")
+            for x in pieces_that_can_move:
+                if(x.name == "king"):
+                    x.potentials.append(brd_array[6][0])
+        if(queen_side == 1):
+            print("QUEEN SIDE")
+            for x in pieces_that_can_move:
+                if(x.name == "king"):
+                    x.potentials.append(brd_array[2][0])
 
         return pieces_that_can_move
 
@@ -359,8 +425,14 @@ class board:
 
         if(king_side == 1):
             print("KING SIDE")
+            for x in pieces_that_can_move:
+                if(x.name == "king"):
+                    x.potentials.append(brd_array[6][7])
         if(queen_side == 1):
             print("QUEEN SIDE")
+            for x in pieces_that_can_move:
+                if(x.name == "king"):
+                    x.potentials.append(brd_array[2][7])
 
         return pieces_that_can_move
 
@@ -385,33 +457,40 @@ class board:
             #MEANS ITS BLACK's Turn
             movable = self.get_black_potentials()
 
+            test_castle = 0
 
             total_count = 0
 
             for i in movable:
                 for p in i.potentials:
+                    if(i.name == "king" and p.y == 7 and i.moves == 0):
+                        if(p.x == 3 or p.x == 6):
+                            piece_moving = i
+                            move_to = p
                     total_count = total_count+1
 
             random_index = random.randint(1,total_count)
 
-            real_count = 0
-            for i in movable:
-                for p in i.potentials:
-                    real_count = real_count+1
-                    if(real_count == random_index):
-                        piece_moving = i
-                        move_to = p
+            #TESTING CASTLING
+            if(test_castle == 0):
+                real_count = 0
+                for i in movable:
+                    for p in i.potentials:
+                        real_count = real_count+1
+                        if(real_count == random_index):
+                            piece_moving = i
+                            move_to = p
             
 
             #and the move will beee:
 
             the_piece_moving = self.get_a_piece(piece_moving.id)
 
-            self.move_piece(the_piece_moving, move_to.x, move_to.y)
+            self.move_piece(the_piece_moving, move_to.x, move_to.y, gui_board)
 
             #print(the_piece_moving.name, move_to.x, move_to.y)
 
-            gui_board.move_a_piece(the_piece_moving, move_to.x, move_to.y , self.board_array)
+            #gui_board.move_a_piece(the_piece_moving, move_to.x, move_to.y , self.board_array)
         
         else:
             movable = self.get_white_potentials()
@@ -436,21 +515,77 @@ class board:
 
             the_piece_moving = self.get_a_piece(piece_moving.id)
 
-            self.move_piece(the_piece_moving, move_to.x, move_to.y)
+            self.move_piece(the_piece_moving, move_to.x, move_to.y, gui_board)
 
             #print(the_piece_moving.name, move_to.x, move_to.y)
 
-            gui_board.move_a_piece(the_piece_moving, move_to.x, move_to.y , self.board_array)
+            #gui_board.move_a_piece(the_piece_moving, move_to.x, move_to.y , self.board_array)
+
+    
+    def total_white_potentials(self):
+        brd_array = self.board_array
+
+        pieces_that_can_move = []
+
+        for x in range(0,8):
+            for y in range(0,8):
+                self.board_array[x][y].potentials = []
+                temp_piece = brd_array[x][y]
+                temp_piece.potentials.clear()
+                if(temp_piece.colour == "white"):
+
+                    #print(temp_piece.name, temp_piece.x, temp_piece.y)
+                    potential = temp_piece.get_potential(brd_array)
+
+                    if(potential is not None):
+
+                        can_move = 0
+                        a_temp_array = []
+                        for p in potential:
+                            can_move = 1
+                            a_temp_array.append(p)
+
+                        if(can_move == 1):
+                            temp_piece.set_potential(a_temp_array)
+                            new_piece = piece(temp_piece.name, temp_piece.colour, temp_piece.x, temp_piece.y, temp_piece.id, a_temp_array)
+                            pieces_that_can_move.append(new_piece)
 
 
+        return pieces_that_can_move
 
 
+    def total_black_potentials(self):
+        brd_array = self.board_array
+
+        pieces_that_can_move = []
+
+        for x in range(0,8):
+            for y in range(0,8):
+                self.board_array[x][y].potentials = []
+                temp_piece = brd_array[x][y]
+                temp_piece.potentials.clear()
+                if(temp_piece.colour == "black"):
+
+                    #print(temp_piece.name, temp_piece.x, temp_piece.y)
+                    potential = temp_piece.get_potential(brd_array)
+
+                    if(potential is not None):
+
+                        can_move = 0
+                        a_temp_array = []
+                        for p in potential:
+                            can_move = 1
+                            a_temp_array.append(p)
+
+                        if(can_move == 1):
+                            temp_piece.set_potential(a_temp_array)
+                            new_piece = piece(temp_piece.name, temp_piece.colour, temp_piece.x, temp_piece.y, temp_piece.id, a_temp_array)
+                            pieces_that_can_move.append(new_piece)
 
 
-
+        return pieces_that_can_move
 
 def is_white_in_check(brd):
-
 
     for i in range(0, 8):
         for j in range(0, 8):
@@ -495,7 +630,6 @@ def convert_spot(the_piece):
     position_string = letter+(str)(y)
     
     return position_string
-
 
 
 

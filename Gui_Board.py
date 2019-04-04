@@ -56,7 +56,7 @@ class GameBoard(tk.Frame):
 
         if(brd[pos_x][pos_y].name != ""):
             temp_name = brd[pos_x][pos_y].total_name
-            self.movepiece(temp_name, 0, 0)
+            self.movepiece(temp_name, 60, 60)
 
         new_x = pos_x
         new_y = 7-pos_y
