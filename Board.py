@@ -194,17 +194,95 @@ class board:
 
         the_piece.x = pos_x
         the_piece.y = pos_y
-        the_piece.has_moved = the_piece.has_moved+1
+        the_piece.moves = the_piece.moves+1
         self.board_array[pos_x][pos_y] = the_piece
 
 
-    def white_castling(self, the_piece):
-        #LEFT OFF HERE
+    def white_castling(self):
 
         #King Side:
+        brd = self.board_array
+        
+        in_check = is_white_in_check(brd)
+        
+        kingside = 0
+        queenside = 0
 
-        print()
+        #Check if white is in check
+        if(in_check == True):
+            return 0, 0
+        else:
+            #Check if king has moved
+            if(brd[4][0].name == "king" and brd[4][0].moves == 0):
 
+                #Check rook1 is in right place and hasn't moved - Queen side
+                rook1 = brd[0][0]
+                if(rook1 == "rook" and rook1.moves == 0):
+                    if(brd[1][0].name == "" and brd[2][0].name == "" and brd[3][0].name == ""):
+                        black_potentials = get_black_potentials(self)
+                        for x in black_potentials:
+                            for i in x.potentials:
+                                if(i.y == 0):
+                                    if(i.x >= 0 or i.x <= 4):
+                                        queenside = 1
+                
+                #Check rook 2 is in the right place and hasn't moved - King side
+                rook2 = brd[7][0]
+                if(rook2 == "rook" and rook1.moves == 0):
+                    if(brd[6][0].name == "" and brd[5][0].name == ""):
+                        black_potentials = get_black_potentials(self)
+                        for x in black_potentials:
+                            for i in x.potentials:
+                                if(i.y == 0):
+                                    if(i.x >= 4 or i.x <= 7):
+                                        kingside = 1
+
+        
+        return kingside, queenside
+
+
+
+    def black_castling(self):
+
+        #King Side:
+        brd = self.board_array
+        
+        in_check = is_black_in_check(brd)
+        
+        kingside = 0
+        queenside = 0
+
+        #Check if white is in check
+        if(in_check == True):
+            return 0, 0
+        else:
+            #Check if king has moved
+            if(brd[4][7].name == "king" and brd[4][7].moves == 0):
+
+                #Check rook1 is in right place and hasn't moved - Queen side
+                rook1 = brd[0][7]
+                if(rook1 == "rook" and rook1.moves == 0):
+                    if(brd[1][7].name == "" and brd[2][7].name == "" and brd[3][7].name == ""):
+                        white_potentials = get_white_potentials(self)
+                        for x in white_potentials:
+                            for i in x.potentials:
+                                if(i.y == 7):
+                                    if(i.x >= 0 or i.x <= 4):
+                                        queenside = 1
+                
+                #Check rook 2 is in the right place and hasn't moved - King side
+                rook2 = brd[7][7]
+                if(rook2 == "rook" and rook1.moves == 0):
+                    if(brd[6][7].name == "" and brd[5][7].name == ""):
+                        white_potentials = get_white_potentials(self)
+                        for x in white_potentials:
+                            for i in x.potentials:
+                                if(i.y == 7):
+                                    if(i.x >= 4 or i.x <= 7):
+                                        kingside = 1
+        
+        return kingside, queenside
+        
 
     def get_white_potentials(self):
 
@@ -224,8 +302,8 @@ class board:
 
                     if(potential is not None):
 
-                        if(temp_piece.name == "king" and temp_piece.moves = 0):
-                            castling = self.white_castling(temp_piece)
+                        if(temp_piece.name == "king" and temp_piece.moves == 0):
+                            castling = self.white_castling()
 
                         can_move = 0
                         a_temp_array = []
@@ -275,6 +353,14 @@ class board:
                             temp_piece.set_potential(a_temp_array)
                             new_piece = piece(temp_piece.name, temp_piece.colour, temp_piece.x, temp_piece.y, temp_piece.id, a_temp_array)
                             pieces_that_can_move.append(new_piece)
+
+        
+        king_side, queen_side = self.black_castling()
+
+        if(king_side == 1):
+            print("KING SIDE")
+        if(queen_side == 1):
+            print("QUEEN SIDE")
 
         return pieces_that_can_move
 

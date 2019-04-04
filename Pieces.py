@@ -52,22 +52,27 @@ class piece():
             if(potentials2 is not None):
                 for x in potentials2:
                     potentials.append(x)
+
+
         elif(self.name == "bishop"):
             potentials = diagonal_potential(self, board)
+
         elif(self.name == "queen"):
             potentials1 = left_right_potential(self, board)
             potentials2 = up_down_potential(self, board)  
             potentials3 = diagonal_potential(self, board)
             
-            if (potentials1 is not None):
-                potentials4 = potentials1.extend(potentials2)
-            else:
-                potentials4 = potentials2
+            if (potentials2 is not None):
+                for x in potentials2:
+                    potentials1.append(x)
                 
-            if (potentials4 is not None):
-                potentials = potentials4.extend(potentials3)
-            else:
-                return potentials3
+            if (potentials3 is not None):
+                for x in potentials3:
+                    potentials1.append(x)
+
+            if (potentials1 is not None):
+                for x in potentials1:
+                    potentials.append(x)
                 
         elif(self.name == "knight"):
             potentials = knight_potential(self, board)

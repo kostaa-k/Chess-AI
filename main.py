@@ -45,4 +45,3 @@ while(move_counter < 50):
 
 
 root.mainloop()
-    
