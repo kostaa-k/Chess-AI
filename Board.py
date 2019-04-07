@@ -668,7 +668,3 @@ def is_move_legal(old_array, the_piece, pos_x, pos_y):
 
     return is_legal
     
-    
-
-
-    

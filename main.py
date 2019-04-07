@@ -11,6 +11,7 @@ import tkinter as tk
 import Gui_Board
 from Gui_Board import GameBoard
 import time
+import Functions
 
 #Create Board Array First:
 
@@ -19,7 +20,11 @@ brd = the_board.get_pieces()
 the_board.set_board()
 
 
-the_board.print_board()
+#the_board.print_board()
+
+
+#TESTING OPENING PGN
+Functions.open_single_pgn("example_pgn.txt")
 
 
 time.sleep(2)
@@ -35,9 +40,11 @@ gui_board = the_board.set_Gui_Board(gui_board, root)
         
 time.sleep(1)
 
+
 move_counter = 1
 while(move_counter < 50):
     the_board.make_random_move(move_counter, gui_board)
+    #the_board.make_pgn_move(move_counter, gui_board, pieces, to_xs, to_ys)
     root.update()
     move_counter = move_counter+1
     the_board.print_board()
