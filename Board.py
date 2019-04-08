@@ -405,15 +405,18 @@ class board:
                     potential = temp_piece.get_potential(brd_array)
 
                     if(potential is not None):
+                        #print(temp_piece.name)
                         can_move = 0
                         a_temp_array = []
                         for p in potential:
-                            #print(temp_piece.name, p.x, p.y)
+                            #print(p.x, p.y, "   ", end = "")
+                            #print()
                             is_legal = is_move_legal(brd_array, temp_piece, p.x, p.y)
                             #print(temp_piece.name, p.x, p.y)
                             if(is_legal == True):
                                 can_move = 1
                                 a_temp_array.append(p)
+                                #print(temp_piece.name)
 
                         if(can_move == 1):
                             temp_piece.set_potential(a_temp_array)
@@ -426,8 +429,10 @@ class board:
         if(king_side == 1):
             print("KING SIDE")
             for x in pieces_that_can_move:
+                #print(x.name)
                 if(x.name == "king"):
                     x.potentials.append(brd_array[6][7])
+                    print("APPENDED")
         if(queen_side == 1):
             print("QUEEN SIDE")
             for x in pieces_that_can_move:
@@ -449,6 +454,42 @@ class board:
 
         
         return None
+
+
+    def make_pgn_move(self, move_counter, gui_board, piece, to_x, to_y):
+
+        print(piece, to_x, to_y)
+
+        if(move_counter %2 == 0):
+            #MEANS ITS BLACK's Turn
+            movable = self.get_black_potentials()
+
+            for i in movable:
+                if(i.name == piece):
+                    for p in i.potentials:
+                        if(p.x == to_x and p.y == to_y):
+                            piece_moving = i
+                            move_to = p
+
+            the_piece_moving = self.get_a_piece(piece_moving.id)
+
+            self.move_piece(the_piece_moving, move_to.x, move_to.y, gui_board)
+
+        else:
+            #MEANS ITS WHITE's Turn
+            movable = self.get_white_potentials()
+
+            #print(piece)
+            for i in movable:
+                if(i.name == piece):
+                    for p in i.potentials:
+                        if(p.x == to_x and p.y == to_y):
+                            piece_moving = i
+                            move_to = p
+
+            the_piece_moving = self.get_a_piece(piece_moving.id)
+
+            self.move_piece(the_piece_moving, move_to.x, move_to.y, gui_board)
 
 
     def make_random_move(self, move_counter, gui_board):

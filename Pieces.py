@@ -102,7 +102,7 @@ def king_potential(the_piece, brd):
         if(x+i >= 0 and x+i < 8):
             for p in changes_in_y:
                 if(y+p >= 0 and y+p < 8):
-                    if(i != 0 and p != 0):
+                    if(i != 0 or p != 0):
                         temp_piece = brd[x+i][y+p]
                         if(temp_piece.name == ""):
                             potential.append(temp_piece)

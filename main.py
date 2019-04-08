@@ -24,7 +24,7 @@ the_board.set_board()
 
 
 #TESTING OPENING PGN
-Functions.open_single_pgn("example_pgn.txt")
+pieces, to_xs, to_ys, from_xs, from_ys = Functions.open_single_pgn("example_pgn.txt")
 
 
 time.sleep(2)
@@ -40,11 +40,10 @@ gui_board = the_board.set_Gui_Board(gui_board, root)
         
 time.sleep(1)
 
-
 move_counter = 1
 while(move_counter < 50):
-    the_board.make_random_move(move_counter, gui_board)
-    #the_board.make_pgn_move(move_counter, gui_board, pieces, to_xs, to_ys)
+    #the_board.make_random_move(move_counter, gui_board)
+    the_board.make_pgn_move(move_counter, gui_board, pieces[move_counter-1], to_xs[move_counter-1], to_ys[move_counter-1])
     root.update()
     move_counter = move_counter+1
     the_board.print_board()
